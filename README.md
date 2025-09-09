@@ -14,7 +14,7 @@ Pozwala pobierać losowe cytaty z API oraz nimi zarządzać.
 - HTML, CSS
 - jQuery
 - localStorage
-- API: [aot-api.vercel.app](https://aot-api.vercel.app/quote)
+- API: [aot-api.vercel.app](https://attackontitanquotes.vercel.app/)
 
 ## Uruchomienie
 Otwórz plik **index.html** w przeglądarce.
