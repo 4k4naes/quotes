@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Generator Cytatów</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1 style="color: #574e42;">Generator Cytatów</h1>
+
+  <div id="qt">
+      <div id="quote-box">
+        <p id="quote">Kliknij "Nowy cytat", aby zacząć.</p>
+        <p id="author"></p>
+      </div>
+    
+      <div id="actions">
+        <button id="new-quote">Nowy cytat</button>
+        <button id="pin-quote">Przypnij</button>
+        <button id="fav-quote">Dodaj do ulubionych</button>
+        <button id="copy-quote">Kopiuj</button>
+      </div>
+  </div>
+
+  <div id="pinned">
+    <img src="pinned.png" alt="Przypięte" style="float: right;">
+    <p id="pinned-quote">Brak przypiętego cytatu.</p>
+  </div>
+
+  <div id="favorites">
+    <h2 style="color: rgb(87, 78, 66);">Ulubione cytaty</h2>
+    <ul id="fav-list"></ul>
+  </div>
+
+  <div id="toast"></div>
+
+  <script>
+    $(document).ready(function () {
+      let currentQuote = null;
+
+      let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+      renderFavorites();
+
+      $("#new-quote").click(function () {
+        $.getJSON("https://aot-api.vercel.app/quote", function (data) {
+          currentQuote = {
+            quote: data.quote,
+            author: data.author
+          };
+          $("#quote").text('"' + currentQuote.quote + '"');
+          $("#author").text("— " + currentQuote.author);
+        });
+      });
+
+      $("#pin-quote").click(function () {
+        if (currentQuote) {
+          $("#pinned-quote").text('"' + currentQuote.quote + '" — ' + currentQuote.author);
+        }
+      });
+
+      $("#fav-quote").click(function () {
+        if (currentQuote) {
+          favorites.push(currentQuote);
+          localStorage.setItem("favorites", JSON.stringify(favorites));
+          renderFavorites();
+        }
+      });
+
+      $("#copy-quote").click(function () {
+        if (currentQuote) {
+          const textToCopy = '"' + currentQuote.quote + '" — ' + currentQuote.author;
+          navigator.clipboard.writeText(textToCopy).then(() => {
+            showToast("Cytat skopiowany do schowka!");
+          });
+        }
+      });
+
+      function showToast(message){
+        $("#toast").text(message).addClass("show");
+        setTimeout(function(){
+            $("#toast").removeClass("show");
+        }, 1500);
+      };
+
+      function renderFavorites() {
+        $("#fav-list").empty();
+        favorites.forEach(function (q, index) {
+            const li = $("<li>")
+            .attr("data-index", index)
+            .text('"' + q.quote + '" — ' + q.author);
+
+            li.click(function () {
+            const i = $(this).data("index");
+            favorites.splice(i, 1);
+            localStorage.setItem("favorites", JSON.stringify(favorites));
+            renderFavorites();
+            });
+
+            $("#fav-list").append(li);
+        });
+        }
+
+    });
+  </script>
+</body>
+</html>

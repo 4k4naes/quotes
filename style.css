@@ -1,0 +1,58 @@
+*{
+    color: rgb(126, 111, 93);
+    font-family: Impact, fantasy;
+}
+*::selection{
+    background-color: black;
+    color: white;
+}
+body{
+    background-color: antiquewhite;
+}
+button{
+    background-color: antiquewhite;
+    border: 2px rgb(126, 111, 93) solid;
+    border-radius: 2px;
+}
+#pinned {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 300px;
+  background: rgb(226, 211, 191);
+  padding: 10px;
+  /* border: 1px solid rgb(153, 140, 123); */
+  border-radius: 8px;
+}
+img{
+    height: 30px;
+}
+#toast {
+  visibility: hidden;
+  min-width: 200px;
+  background: black;
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  padding: 10px;
+  position: fixed;
+  bottom: 20px;   /* pokaże się na dole */
+  left: 20px;    /* w prawym rogu */
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+#toast.show {
+  visibility: visible;
+  opacity: 1;
+}
+#fav-list li {
+  cursor: pointer;
+  padding: 5px;
+  transition: 0.3s;
+}
+
+#fav-list li:hover {
+  text-decoration: line-through;
+  color: rgb(87, 78, 66);
+}
