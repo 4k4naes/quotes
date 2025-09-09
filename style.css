@@ -36,8 +36,8 @@ img{
   border-radius: 5px;
   padding: 10px;
   position: fixed;
-  bottom: 20px;   /* pokaże się na dole */
-  left: 20px;    /* w prawym rogu */
+  bottom: 20px; 
+  left: 20px;  
   z-index: 1000;
   opacity: 0;
   transition: opacity 0.5s;
@@ -56,3 +56,4 @@ img{
   text-decoration: line-through;
   color: rgb(87, 78, 66);
 }
+
